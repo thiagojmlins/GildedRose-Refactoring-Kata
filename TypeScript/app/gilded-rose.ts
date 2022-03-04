@@ -14,54 +14,69 @@ export class GildedRose {
 
   doUpdateQuality() {
     for (let item of this.items) {
-      if (
-        item.name != "Aged Brie" &&
-        item.name != "Backstage passes to a TAFKAL80ETC concert"
-      ) {
-        if (item.quality > 0) {
-          if (item.name != "Sulfuras, Hand of Ragnaros") {
-            item.quality = item.quality - 1;
-          }
-        }
-      } else {
-        if (item.quality < 50) {
-          item.quality = item.quality + 1;
-          if (item.name == "Backstage passes to a TAFKAL80ETC concert") {
-            if (item.sellIn < 11) {
-              if (item.quality < 50) {
-                item.quality = item.quality + 1;
-              }
-            }
-            if (item.sellIn < 6) {
-              if (item.quality < 50) {
-                item.quality = item.quality + 1;
-              }
-            }
-          }
-        }
+      switch (item.name) {
+        case "Aged Brie":
+          updateQualityForAgedBrie(item);
+          break;
+        case "Backstage passes to a TAFKAL80ETC concert":
+          updateQualityForBackstagePasses(item);
+          break;
+        case "Sulfuras, Hand of Ragnaros":
+          updateQualityForSulfuras(item);
+          break;
+        default:
+          updateQualityForNormalItem(item);
+          break;
       }
-      if (item.name != "Sulfuras, Hand of Ragnaros") {
-        item.sellIn = item.sellIn - 1;
-      }
-      if (item.sellIn < 0) {
-        if (item.name != "Aged Brie") {
-          if (item.name != "Backstage passes to a TAFKAL80ETC concert") {
-            if (item.quality > 0) {
-              if (item.name != "Sulfuras, Hand of Ragnaros") {
-                item.quality = item.quality - 1;
-              }
-            }
-          } else {
-            item.quality = item.quality - item.quality;
-          }
-        } else {
-          if (item.quality < 50) {
-            item.quality = item.quality + 1;
-          }
-        }
-      }
+      item.sellIn--;
     }
 
     return this.items;
   }
 }
+
+const isQualityNotMaximum = (item: Item) => item.quality < 50;
+const isQualityNotMinimum = (item: Item) => item.quality > 0;
+
+const increaseQuality = (item: Item) => item.quality++;
+const decreaseQuality = (item: Item) => item.quality--;
+
+const updateQualityForBackstagePasses = (item: Item) => {
+  increaseQuality(item);
+  if (item.sellIn < 11 && isQualityNotMaximum(item)) {
+    increaseQuality(item);
+  }
+  if (item.sellIn < 6 && isQualityNotMaximum(item)) {
+    increaseQuality(item);
+  }
+
+  if (item.sellIn <= 0) {
+    item.quality = 0;
+  }
+};
+
+const updateQualityForAgedBrie = (item: Item) => {
+  if (isQualityNotMaximum(item)) {
+    increaseQuality(item);
+  }
+
+  if (item.sellIn <= 0) {
+    item.quality++;
+  }
+};
+
+const updateQualityForNormalItem = (item: Item) => {
+  if (isQualityNotMinimum(item)) {
+    decreaseQuality(item);
+  }
+
+  if (item.sellIn <= 0) {
+    if (isQualityNotMinimum(item)) {
+      decreaseQuality(item);
+    }
+  }
+};
+
+const updateQualityForSulfuras = (item: Item) => {
+  item.quality = 80;
+};
