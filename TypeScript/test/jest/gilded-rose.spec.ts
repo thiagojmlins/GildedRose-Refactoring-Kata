@@ -1,4 +1,4 @@
-import { Item } from "@/item";
+import { Conjured, Item } from "@/item";
 import { GildedRose } from "@/gilded-rose";
 
 describe("Gilded Rose", () => {
@@ -120,12 +120,14 @@ describe("Gilded Rose", () => {
     });
   });
 
-  describe.skip("Conjured items", () => {
+  describe("Conjured items", () => {
     it("should decrease quality in 2 for Conjured Mana Cake", () => {
       const gildedRose = new GildedRose([
         Item.createItem("Conjured Mana Cake", 5, 10),
       ]);
       const items = gildedRose.updateQuality();
+      console.log(items[0]);
+      expect(items[0] instanceof Conjured).toBeTruthy();
       expect(items[0].quality).toEqual(8);
     });
 
@@ -134,6 +136,7 @@ describe("Gilded Rose", () => {
         Item.createItem("Conjured Mana Cake", 0, 10),
       ]);
       const items = gildedRose.updateQuality();
+      expect(items[0] instanceof Conjured).toBeTruthy();
       expect(items[0].quality).toEqual(6);
     });
   });

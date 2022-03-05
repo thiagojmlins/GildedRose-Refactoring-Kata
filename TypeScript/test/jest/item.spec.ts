@@ -1,4 +1,4 @@
-import { Item, AgedBrie, BackstagePasses, Sulfuras } from "@/item";
+import { Item, AgedBrie, BackstagePasses, Sulfuras, Conjured } from "@/item";
 
 describe("createItem", () => {
   it("should convert into AgedBrie item type", () => {
@@ -20,8 +20,13 @@ describe("createItem", () => {
     expect(item instanceof Sulfuras).toBeTruthy();
   });
 
-  it("should convert into RegularItem item type", () => {
+  it("should convert into Item type", () => {
     const item = Item.createItem("Elixir of the Mongoose", 5, 40);
     expect(item instanceof Item).toBeTruthy();
+  });
+
+  it("should convert into Conjured item type", () => {
+    const item = Item.createItem("Conjured Mana Cake", 5, 40);
+    expect(item instanceof Conjured).toBeTruthy();
   });
 });

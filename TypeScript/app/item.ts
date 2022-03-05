@@ -17,6 +17,8 @@ export class Item {
         return new BackstagePasses(sellIn, quality);
       case "Sulfuras, Hand of Ragnaros":
         return new Sulfuras(sellIn);
+      case "Conjured Mana Cake":
+        return new Conjured(name, sellIn, quality);
       default:
         return new Item(name, sellIn, quality);
     }
@@ -77,4 +79,17 @@ export class Sulfuras extends Item {
   }
 
   updateQuality() {}
+}
+
+export class Conjured extends Item {
+  constructor(name: string, sellIn: number, quality: number) {
+    super(name, sellIn, quality);
+  }
+
+  updateQuality() {
+    this.quality -= 2;
+    if (this.sellIn <= 0) {
+      this.quality -= 2;
+    }
+  }
 }
