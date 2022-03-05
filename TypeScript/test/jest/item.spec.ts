@@ -1,10 +1,27 @@
-import { Item } from "@/item";
+import { Item, AgedBrie, BackstagePasses, Sulfuras } from "@/item";
 
-describe("Item", () => {
-  it("should create new Item", () => {
-    const item = new Item("foo", 5, 5);
-    expect(item.name).toStrictEqual("foo");
-    expect(item.sellIn).toStrictEqual(5);
-    expect(item.quality).toStrictEqual(5);
+describe("createItem", () => {
+  it("should convert into AgedBrie item type", () => {
+    const item = Item.createItem("Aged Brie", 5, 40);
+    expect(item instanceof AgedBrie).toBeTruthy();
+  });
+
+  it("should convert into BackstagePasses item type", () => {
+    const item = Item.createItem(
+      "Backstage passes to a TAFKAL80ETC concert",
+      5,
+      40
+    );
+    expect(item instanceof BackstagePasses).toBeTruthy();
+  });
+
+  it("should convert into Sulfuras item type", () => {
+    const item = Item.createItem("Sulfuras, Hand of Ragnaros", 5, 40);
+    expect(item instanceof Sulfuras).toBeTruthy();
+  });
+
+  it("should convert into RegularItem item type", () => {
+    const item = Item.createItem("Elixir of the Mongoose", 5, 40);
+    expect(item instanceof Item).toBeTruthy();
   });
 });
