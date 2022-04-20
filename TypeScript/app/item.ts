@@ -35,6 +35,10 @@ export class Item {
       }
     }
   }
+
+  updateSellIn() {
+    this.sellIn--;
+  }
 }
 
 export class AgedBrie extends Item {

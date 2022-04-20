@@ -10,7 +10,7 @@ export class GildedRose {
   updateQuality() {
     for (let item of this.items) {
       item.updateQuality();
-      item.sellIn--;
+      item.updateSellIn();
     }
     return this.items;
   }
